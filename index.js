@@ -12,6 +12,9 @@ console.log("comenzando");
 //puerto de la APP
 const port = process.env.PORT || 4000;
 
+//habilitar leer valores
+app.use(express.json());
+
 //rutas de la app
 
 app.use("/api/pacientes", require("./routes/pacientes"));
