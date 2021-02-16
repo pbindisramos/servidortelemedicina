@@ -23,10 +23,10 @@ const pacienteSchema = new Schema({
     required: true,
     default: true,
   },
-  fechanacimiento: {
-    type: Date,
-    required: true,
-  },
+  // fechanacimiento: {
+  //   type: Date,
+  //   required: true,
+  // },
   password: {
     type: String,
     required: true,
