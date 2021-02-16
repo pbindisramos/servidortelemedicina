@@ -18,6 +18,7 @@ app.use(express.json());
 //rutas de la app
 
 app.use("/api/pacientes", require("./routes/pacientes"));
+app.use("/api/auth", require("./routes/auth"));
 //Arrancar App
 app.listen(port, "0.0.0.0", () => {
   console.log(`el servidor esta funcionando en el puerto ${port}`);

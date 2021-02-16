@@ -7,7 +7,7 @@ router.post(
   "/",
   [
     check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("email", "Agrega un email valido").isEmail(),
+    check("email", "Agrega un email válido").isEmail(),
     check(
       "password",
       "El password debe contar con al menos 6 caracteres"
