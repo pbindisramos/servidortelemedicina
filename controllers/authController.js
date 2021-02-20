@@ -1,4 +1,4 @@
-const Paciente = require("../models/Paciente");
+const Paciente = require("../models/Usuario");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });

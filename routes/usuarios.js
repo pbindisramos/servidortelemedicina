@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const pacienteController = require("../controllers/pacienteController");
+const usuarioController = require("../controllers/usuarioController");
 const { check } = require("express-validator");
 
 router.post(
@@ -16,7 +16,7 @@ router.post(
     }),
   ],
 
-  pacienteController.nuevoPaciente
+  usuarioController.nuevoUsuario
 );
 
 module.exports = router;
