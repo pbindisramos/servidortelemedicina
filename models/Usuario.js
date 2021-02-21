@@ -32,6 +32,12 @@ const usuarioSchema = new Schema({
     required: true,
     trim: true,
   },
+  roles: [
+    {
+      ref: "Role",
+      type: Schema.Types.ObjectId,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Usuario", usuarioSchema);

@@ -1,9 +1,11 @@
 const express = require("express");
 const conectarDB = require("./config/db");
 const cors = require("cors");
+const { createRoles } = require("./libs/initialSetup");
 
 //crear servidor
 const app = express();
+createRoles();
 
 //conectar base de datos
 conectarDB();

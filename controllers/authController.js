@@ -1,4 +1,5 @@
-const Paciente = require("../models/Usuario");
+const Usuario = require("../models/Usuario");
+const Role = require("../models/Role");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
@@ -7,7 +8,7 @@ exports.autenticarUsuario = async (req, res, next) => {
   //Revisar si hay errores
   //Buscar Usuario
   const { email, password } = req.body;
-  const usuario = await Paciente.findOne({ email });
+  const usuario = await Usuario.findOne({ email }).populate("roles");
   //console.log(usuario);
 
   if (!usuario) {
@@ -27,6 +28,7 @@ exports.autenticarUsuario = async (req, res, next) => {
       }
     );
     console.log(token);
+    console.log(usuario);
     res.json({ token });
   } else {
     res.status(401).json({ msg: "Password incorrecto" });
