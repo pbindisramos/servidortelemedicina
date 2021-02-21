@@ -3,7 +3,7 @@ const Role = require("../models/Role");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
 
-module.exports = (req, res, next) => {
+exports.jwt = async (req, res, next) => {
   const authHeader = req.get("Authorization");
 
   if (authHeader) {
@@ -11,19 +11,24 @@ module.exports = (req, res, next) => {
       //obtener token
       const token = authHeader.split(" ")[1];
       //comprobar el jwt
-      const usuario = jwt.verify(token, process.env.SECRETA);
+      const usuario = await jwt.verify(token, process.env.SECRETA);
       req.usuario = usuario;
-      console.log(req.usuario.id);
     } catch (error) {
       console.log(error);
     }
   }
-
   next();
 };
 
-// module.exports = async (req, res, next) => {
-//   const usuario = await Usuario.findById(usuario._id);
-
-//   next();
-// };
+exports.isAdmin = async (req, res, next) => {
+  const usuario = await Usuario.findById(req.usuario.id);
+  const roles = await Role.find({ _id: { $in: usuario.roles } });
+  for (let i = 0; i < roles.length; i++) {
+    if (roles[i].name == "admin") {
+      next();
+    } else if (roles[i].name == "doctor") {
+      next();
+    }
+    return res.status(403).json({ msg: "Necesitas permisos Adicionales" });
+  }
+};

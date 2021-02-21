@@ -5,6 +5,6 @@ const { check } = require("express-validator");
 const auth = require("../middleware/auth");
 
 router.post("/", authController.autenticarUsuario);
-router.get("/", auth, authController.usuarioAutenticado);
+router.get("/", auth.jwt, auth.isAdmin, authController.usuarioAutenticado);
 
 module.exports = router;
