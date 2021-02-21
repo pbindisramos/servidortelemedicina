@@ -7,7 +7,7 @@ require("dotenv").config({ path: "variables.env" });
 exports.autenticarUsuario = async (req, res, next) => {
   //Revisar si hay errores
   //Buscar Usuario
-  const { email, password } = req.body;
+  const { email, password, roles } = req.body;
   const usuario = await Usuario.findOne({ email }).populate("roles");
   //console.log(usuario);
 
@@ -21,14 +21,18 @@ exports.autenticarUsuario = async (req, res, next) => {
     console.log("password correcto");
     //crear json web token
     const token = jwt.sign(
-      { id: usuario._id, nombre: usuario.nombre, email: usuario.email },
+      {
+        id: usuario._id,
+        nombre: usuario.nombre,
+        email: usuario.email,
+        role: usuario.roles,
+      },
       process.env.SECRETA,
       {
         expiresIn: "8h",
       }
     );
     console.log(token);
-    console.log(usuario);
     res.json({ token });
   } else {
     res.status(401).json({ msg: "Password incorrecto" });
