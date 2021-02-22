@@ -26,9 +26,20 @@ exports.isAdmin = async (req, res, next) => {
   for (let i = 0; i < roles.length; i++) {
     if (roles[i].name == "admin") {
       next();
-    } else if (roles[i].name == "doctor") {
-      next();
+      return;
     }
-    return res.status(403).json({ msg: "Necesitas permisos Adicionales" });
   }
+  res.status(403).json({ msg: "Necesitas permisos de Administrador" });
+};
+
+exports.isDoctor = async (req, res, next) => {
+  const usuario = await Usuario.findById(req.usuario.id);
+  const roles = await Role.find({ _id: { $in: usuario.roles } });
+  for (let i = 0; i < roles.length; i++) {
+    if (roles[i].name == "doctor") {
+      next();
+      return;
+    }
+  }
+  res.status(403).json({ msg: "Necesitas permisos de Doctor" });
 };
