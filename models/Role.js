@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ROLES = ["paciente", "doctor", "admin"];
+const ROLES = ("paciente", "doctor", "admin");
 const rolesSchema = new Schema(
   {
     name: String,
