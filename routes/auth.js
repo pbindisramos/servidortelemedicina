@@ -6,6 +6,6 @@ const auth = require("../middleware/auth");
 const verificarRoles = require("../middleware/verificarRoles");
 
 router.post("/", authController.autenticarUsuario);
-router.get("/", auth.jwt, auth.isAdmin, authController.usuarioAutenticado);
+router.get("/", auth.jwt, authController.usuarioAutenticado);
 
 module.exports = router;

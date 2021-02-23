@@ -26,6 +26,8 @@ app.use(express.json());
 
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/admin", require("./routes/admin"));
+
 //Arrancar App
 app.listen(port, "0.0.0.0", () => {
   console.log(`el servidor esta funcionando en el puerto ${port}`);
