@@ -21,25 +21,33 @@ exports.jwt = async (req, res, next) => {
 };
 
 exports.isAdmin = async (req, res, next) => {
-  const usuario = await Usuario.findById(req.usuario.id);
-  const roles = await Role.find({ _id: { $in: usuario.roles } });
-  for (let i = 0; i < roles.length; i++) {
-    if (roles[i].name == "admin") {
-      next();
-      return;
+  try {
+    const usuario = await Usuario.findById(req.usuario.id);
+    const roles = await Role.find({ _id: { $in: usuario.roles } });
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].name == "admin") {
+        next();
+        return;
+      }
     }
+  } catch (error) {
+    console.log(error);
+    res.status(403).json({ msg: "Necesitas permisos de Administrador" });
   }
-  res.status(403).json({ msg: "Necesitas permisos de Administrador" });
 };
 
 exports.isDoctor = async (req, res, next) => {
-  const usuario = await Usuario.findById(req.usuario.id);
-  const roles = await Role.find({ _id: { $in: usuario.roles } });
-  for (let i = 0; i < roles.length; i++) {
-    if (roles[i].name == "doctor") {
-      next();
-      return;
+  try {
+    const usuario = await Usuario.findById(req.usuario.id);
+    const roles = await Role.find({ _id: { $in: usuario.roles } });
+    for (let i = 0; i < roles.length; i++) {
+      if (roles[i].name == "doctor") {
+        next();
+        return;
+      }
     }
+  } catch (error) {
+    console.log(error);
+    res.status(403).json({ msg: "Necesitas permisos de Doctor" });
   }
-  res.status(403).json({ msg: "Necesitas permisos de Doctor" });
 };
