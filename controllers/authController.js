@@ -1,5 +1,5 @@
 const Usuario = require("../models/Usuario");
-const Role = require("../models/Role");
+//const Role = require("../models/Role");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config({ path: "variables.env" });
@@ -7,10 +7,9 @@ require("dotenv").config({ path: "variables.env" });
 exports.autenticarUsuario = async (req, res, next) => {
   //Revisar si hay errores
   //Buscar Usuario
-  const { email, password, roles } = req.body;
-  const usuario = await Usuario.findOne({ email }).populate("roles");
-  //console.log(usuario);
-
+  const { email, password, role } = req.body;
+  //const usuario = await Usuario.findOne({ email }).populate("roles");
+  const usuario = await Usuario.findOne({ email });
   if (!usuario) {
     res.status(401).json({ msg: "El usuario no existe" });
     return next();
@@ -25,7 +24,7 @@ exports.autenticarUsuario = async (req, res, next) => {
         id: usuario._id,
         nombre: usuario.nombre,
         email: usuario.email,
-        role: usuario.roles,
+        role: usuario.role,
       },
       process.env.SECRETA,
       {
