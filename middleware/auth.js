@@ -23,12 +23,10 @@ exports.jwt = async (req, res, next) => {
 exports.isAdmin = async (req, res, next) => {
   try {
     const usuario = await Usuario.findById(req.usuario.id);
-    const roles = await Role.find({ _id: { $in: usuario.roles } });
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name == "admin") {
-        next();
-        return;
-      }
+    console.log(usuario);
+    if (usuario.role == "admin") {
+      next();
+      return;
     }
   } catch (error) {
     console.log(error);

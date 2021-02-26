@@ -5,6 +5,24 @@ const { check } = require("express-validator");
 const auth = require("../middleware/auth");
 const verificarRoles = require("../middleware/verificarRoles");
 
-router.post("/", auth.jwt, auth.isAdmin, adminController.crearMedico);
+router.post(
+  "/",
+  [
+    check("nombre", "El nombre es obligatorio").not().isEmpty(),
+    check("email", "Agrega un email válido").isEmail(),
+    check(
+      "password",
+      "El password debe contar con al menos 6 caracteres"
+    ).isLength({
+      min: 6,
+    }),
+  ],
+  auth.jwt,
+  auth.isAdmin,
+  adminController.crearMedico
+);
+
+router.get("/", auth.jwt, auth.isAdmin, adminController.getMedicos);
+//router.delete("/", auth.jwt, auth.isAdmin, adminController.deleteDoctor);
 
 module.exports = router;
