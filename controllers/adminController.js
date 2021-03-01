@@ -1,6 +1,7 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
+const { nuevoUsuario } = require('./usuarioController');
 //const Role = require("../models/Role");
 
 exports.crearMedico = async (req, res) => {
@@ -46,76 +47,61 @@ exports.getMedicos = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next();
+    return next();
   }
 };
 
 // Actualiza un proyecto
-// exports.actualizarMedico = async (req, res, next) => {
-//   // Revisar si hay errores
-//   const errores = validationResult(req);
-//   if (!errores.isEmpty()) {
-//     return res.status(400).json({ errores: errores.array() });
-//   }
+exports.actualizarMedico = async (req, res, next) => {
+  // Revisar si hay errores
+  const errores = validationResult(req);
+  if (!errores.isEmpty()) {
+    return res.status(400).json({ errores: errores.array() });
+  }
 
-//   // extraer la información del medico
-//   const { nombre } = req.body;
-//   const nuevoProyecto = {};
+  // extraer la información del medico
+  const { nombre } = req.body;
+  const nuevoDoctor = {};
 
-//   if (nombre) {
-//     nuevoProyecto.nombre = nombre;
-//   }
+  if (nombre) {
+    nuevoDoctor.nombre = nombre;
+  }
 
-// try {
-//   // revisar el ID
-//   let proyecto = await Proyecto.findById(req.params.id);
+  try {
+    //Revisar ID
+    let medico = await Usuario.findById(req.params.id);
+    //Si el medico existe o no
+    if (!medico) {
+      return res.status(404).json({ msg: 'Medico no encontrado' });
+    }
+    //actualizar
+    medico = await Usuario.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $set: nuevoDoctor },
+      {
+        new: true,
+      }
+    );
+    res.json({ medico });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error en el servidor');
+  }
+};
 
-//   // si el proyecto existe o no
-//   if (!proyecto) {
-//     return res.status(404).json({ msg: 'Proyecto no encontrado' });
-//   }
-
-//   // verificar el creador del proyecto
-//   if (proyecto.creador.toString() !== req.usuario.id) {
-//     return res.status(401).json({ msg: 'No Autorizado' });
-//   }
-
-//   // actualizar
-//   proyecto = await Proyecto.findByIdAndUpdate(
-//     { _id: req.params.id },
-//     { $set: nuevoProyecto },
-//     { new: true }
-//   );
-
-//   res.json({ proyecto });
-// } catch (error) {
-//   console.log(error);
-//   res.status(500).send('Error en el servidor');
-// }
-// };
-
-// exports.getMedico = async (req, res, next) => {
-//   try {
-//     const userId = req.params.userId;
-//     const user = await User.findById(userId);
-//     if (!user) return next(new Error("User does not exist"));
-//     res.status(200).json({
-//       data: user,
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// exports.deleteDoctor = async (req, res, next) => {
-//   try {
-//     const userId = req.params.userId;
-//     await User.findByIdAndDelete(userId);
-//     res.status(200).json({
-//       data: null,
-//       message: "User has been deleted",
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+exports.eliminarMedico = async (req, res, next) => {
+  try {
+    //Revisar ID
+    let medico = await Usuario.findById(req.params.id);
+    //Si el medico existe o no
+    if (!medico) {
+      return res.status(404).json({ msg: 'Medico no encontrado' });
+    }
+    //actualizar
+    await Usuario.findOneAndRemove({ _id: req.params.id });
+    res.json({ msg: 'Doctor eliminado' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error en el servidor');
+  }
+};

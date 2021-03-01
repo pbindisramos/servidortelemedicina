@@ -21,9 +21,11 @@ router.post(
   auth.isAdmin,
   adminController.crearMedico
 );
-
+//obtener medicos
 router.get('/', auth.jwt, auth.isAdmin, adminController.getMedicos);
-//router.delete("/", auth.jwt, auth.isAdmin, adminController.deleteDoctor);
-
+//editar medico
 router.put('/:id', auth.jwt, auth.isAdmin, adminController.actualizarMedico);
+//eliminar medico
+router.delete('/:id', auth.jwt, auth.isAdmin, adminController.eliminarMedico);
+
 module.exports = router;
