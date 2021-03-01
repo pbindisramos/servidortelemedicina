@@ -1,18 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const adminController = require("../controllers/adminController");
-const { check } = require("express-validator");
-const auth = require("../middleware/auth");
-const verificarRoles = require("../middleware/verificarRoles");
+const adminController = require('../controllers/adminController');
+const { check } = require('express-validator');
+const auth = require('../middleware/auth');
+const verificarRoles = require('../middleware/verificarRoles');
 
 router.post(
-  "/",
+  '/',
   [
-    check("nombre", "El nombre es obligatorio").not().isEmpty(),
-    check("email", "Agrega un email válido").isEmail(),
+    check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+    check('email', 'Agrega un email válido').isEmail(),
     check(
-      "password",
-      "El password debe contar con al menos 6 caracteres"
+      'password',
+      'El password debe contar con al menos 6 caracteres'
     ).isLength({
       min: 6,
     }),
@@ -22,7 +22,8 @@ router.post(
   adminController.crearMedico
 );
 
-router.get("/", auth.jwt, auth.isAdmin, adminController.getMedicos);
+router.get('/', auth.jwt, auth.isAdmin, adminController.getMedicos);
 //router.delete("/", auth.jwt, auth.isAdmin, adminController.deleteDoctor);
 
+router.put('/:id', auth.jwt, auth.isAdmin, adminController.actualizarMedico);
 module.exports = router;
