@@ -3,8 +3,9 @@ const router = express.Router();
 const adminController = require('../controllers/adminController');
 const { check } = require('express-validator');
 const auth = require('../middleware/auth');
-const verificarRoles = require('../middleware/verificarRoles');
+//const verificarRoles = require('../middleware/verificarRoles');
 
+//crear Medicos
 router.post(
   '/',
   [

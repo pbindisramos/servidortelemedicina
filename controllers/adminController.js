@@ -1,7 +1,7 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const { validationResult } = require('express-validator');
-const { nuevoUsuario } = require('./usuarioController');
+//const { nuevoUsuario } = require('./usuarioController');
 //const Role = require("../models/Role");
 
 exports.crearMedico = async (req, res) => {
@@ -51,7 +51,7 @@ exports.getMedicos = async (req, res, next) => {
   }
 };
 
-// Actualiza un proyecto
+// Actualiza un medico
 exports.actualizarMedico = async (req, res, next) => {
   // Revisar si hay errores
   const errores = validationResult(req);
@@ -74,7 +74,7 @@ exports.actualizarMedico = async (req, res, next) => {
     if (!medico) {
       return res.status(404).json({ msg: 'Medico no encontrado' });
     }
-    //actualizar
+    //Actualizar
     medico = await Usuario.findByIdAndUpdate(
       { _id: req.params.id },
       { $set: nuevoDoctor },
@@ -95,7 +95,7 @@ exports.eliminarMedico = async (req, res, next) => {
     let medico = await Usuario.findById(req.params.id);
     //Si el medico existe o no
     if (!medico) {
-      return res.status(404).json({ msg: 'Medico no encontrado' });
+      return res.status(404).json({ msg: 'Doctor no encontrado' });
     }
     //actualizar
     await Usuario.findOneAndRemove({ _id: req.params.id });

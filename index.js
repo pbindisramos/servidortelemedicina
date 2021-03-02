@@ -1,11 +1,12 @@
-const express = require("express");
-const conectarDB = require("./config/db");
-const cors = require("cors");
-const { createRoles } = require("./libs/initialSetup");
+const express = require('express');
+const conectarDB = require('./config/db');
+const cors = require('cors');
+//const { createRoles } = require('./libs/initialSetup');
 
 //crear servidor
 const app = express();
-createRoles();
+
+//createRoles();
 
 //conectar base de datos
 conectarDB();
@@ -24,11 +25,12 @@ app.use(express.json());
 
 //rutas de la app
 
-app.use("/api/usuarios", require("./routes/usuarios"));
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/admin", require("./routes/admin"));
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/doctor', require('./routes/doctor'));
 
 //Arrancar App
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`el servidor esta funcionando en el puerto ${port}`);
 });

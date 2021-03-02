@@ -1,7 +1,7 @@
-const { roles } = require("../roles");
-const Usuario = require("../models/Usuario");
-const bcrypt = require("bcrypt");
-const { validationResult } = require("express-validator");
+//const { roles } = require("../roles");
+const Usuario = require('../models/Usuario');
+const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 
 //const Role = require("../models/Role");
 
@@ -20,11 +20,11 @@ exports.nuevoUsuario = async (req, res) => {
   if (usuario) {
     return res
       .status(400)
-      .json({ msg: "El correo ya se encuentra registrado" });
+      .json({ msg: 'El correo ya se encuentra registrado' });
   }
 
   //crear nuevo usuario
-  usuario = new Usuario({ nombre, email, password, role: role || "paciente" });
+  usuario = new Usuario({ nombre, email, password, role: role || 'paciente' });
   // if (roles) {
   //   const foundRoles = await Role.find({ name: { $in: roles } });
   //   usuario.roles = foundRoles.map((role) => role._id);
@@ -39,7 +39,7 @@ exports.nuevoUsuario = async (req, res) => {
   try {
     await usuario.save();
     console.log(usuario);
-    res.json({ msg: "Usuario creado correctamente" });
+    res.json({ msg: 'Usuario creado correctamente' });
   } catch (error) {
     console.log(error);
   }

@@ -1,15 +1,15 @@
-const Usuario = require("../models/Usuario");
-const Role = require("../models/Role");
-const jwt = require("jsonwebtoken");
-require("dotenv").config({ path: "variables.env" });
+const Usuario = require('../models/Usuario');
+const Role = require('../models/Role');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: 'variables.env' });
 
 exports.jwt = async (req, res, next) => {
-  const authHeader = req.get("Authorization");
+  const authHeader = req.get('Authorization');
 
   if (authHeader) {
     try {
       //obtener token
-      const token = authHeader.split(" ")[1];
+      const token = authHeader.split(' ')[1];
       //comprobar el jwt
       const usuario = await jwt.verify(token, process.env.SECRETA);
       req.usuario = usuario;
@@ -23,29 +23,40 @@ exports.jwt = async (req, res, next) => {
 exports.isAdmin = async (req, res, next) => {
   try {
     const usuario = await Usuario.findById(req.usuario.id);
-    console.log(usuario);
-    if (usuario.role == "admin") {
+    if (usuario.role == 'admin') {
       next();
       return;
     }
   } catch (error) {
     console.log(error);
-    res.status(403).json({ msg: "Necesitas permisos de Administrador" });
+    res.status(403).json({ msg: 'Necesitas permisos de Administrador' });
   }
 };
 
 exports.isDoctor = async (req, res, next) => {
   try {
     const usuario = await Usuario.findById(req.usuario.id);
-    const roles = await Role.find({ _id: { $in: usuario.roles } });
-    for (let i = 0; i < roles.length; i++) {
-      if (roles[i].name == "doctor") {
-        next();
-        return;
-      }
+    if (usuario.role == 'doctor') {
+      next();
+      return;
     }
   } catch (error) {
     console.log(error);
-    res.status(403).json({ msg: "Necesitas permisos de Doctor" });
+    res.status(403).json({ msg: 'Necesitas permisos de Doctor' });
   }
 };
+
+//   try {
+//     const usuario = await Usuario.findById(req.usuario.id);
+//     const roles = await Role.find({ _id: { $in: usuario.roles } });
+//     for (let i = 0; i < roles.length; i++) {
+//       if (roles[i].name == 'doctor') {
+//         next();
+//         return;
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(403).json({ msg: 'Necesitas permisos de Doctor' });
+//   }
+// };
