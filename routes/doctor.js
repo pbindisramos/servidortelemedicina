@@ -4,6 +4,6 @@ const doctorController = require('../controllers/doctorController');
 const { check } = require('express-validator');
 const auth = require('../middleware/auth');
 
-router.post('/', auth.jwt, auth.isDoctor);
+router.post('/', auth.jwt, auth.isDoctor, doctorController.crearAgenda);
 
 module.exports = router;
