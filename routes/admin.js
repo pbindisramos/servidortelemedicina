@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const adminController = require('../controllers/adminController');
+const doctorController = require('../controllers/doctorController');
 const { check } = require('express-validator');
 const auth = require('../middleware/auth');
 //const verificarRoles = require('../middleware/verificarRoles');
@@ -20,13 +20,13 @@ router.post(
   ],
   auth.jwt,
   auth.isAdmin,
-  adminController.crearMedico
+  doctorController.crearMedico
 );
 //obtener medicos
-router.get('/', auth.jwt, auth.isAdmin, adminController.getMedicos);
+router.get('/', auth.jwt, auth.isAdmin, doctorController.getMedicos);
 //editar medico
-router.put('/:id', auth.jwt, auth.isAdmin, adminController.actualizarMedico);
+router.put('/:id', auth.jwt, auth.isAdmin, doctorController.actualizarMedico);
 //eliminar medico
-router.delete('/:id', auth.jwt, auth.isAdmin, adminController.eliminarMedico);
+router.delete('/:id', auth.jwt, auth.isAdmin, doctorController.eliminarMedico);
 
 module.exports = router;
