@@ -2,7 +2,16 @@ const Agenda = require('../models/Agenda');
 
 exports.crearAgenda = async (req, res, next) => {
   try {
-    console.log(req.body.days.Lunes[0].manana_comienzo);
+    const dias = await Object.keys(req.body.days);
+    const dia = dias.map((dia, i) => {
+      return i;
+    });
+    req.body.days.activo;
+    const activo = req.body.days;
+    console.log(activo.map);
+
+    // agenda = new Agenda({ dia });
+    // await agenda.save();
   } catch (error) {
     console.log(error);
   }
