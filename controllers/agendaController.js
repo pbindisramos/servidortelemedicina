@@ -1,17 +1,28 @@
+const { json } = require('express');
 const Agenda = require('../models/Agenda');
 
 exports.crearAgenda = async (req, res, next) => {
   try {
-    const dias = await Object.keys(req.body.days);
-    const dia = dias.map((dia, i) => {
-      return i;
-    });
-    req.body.days.activo;
-    const activo = req.body.days;
-    console.log(activo.map);
+    //const dias = await Object.keys(req.body.days);
+    // let day = {};
+    // dias.map((diax, i) => {
+    //   day += `${diax}, `;
+    //   return day;
+    // });
 
-    // agenda = new Agenda({ dia });
-    // await agenda.save();
+    //const activo = ['false'];
+    // const activo1 = req.body.days;
+    // console.log(activo1);
+
+    agenda = new Agenda({
+      dias: [
+        {
+          dia: 'Lunes',
+          activo: true,
+        },
+      ],
+    });
+    await agenda.save();
   } catch (error) {
     console.log(error);
   }
