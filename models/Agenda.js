@@ -5,36 +5,34 @@ const agendaSchema = new Schema({
   dias: [
     {
       dia: {
-        type: Object,
+        type: String,
         required: true,
       },
-      // activo: {
-      //   type: Boolean,
-      //   required: true,
-      // },
-      // manana_comienzo: {
-      //   type: Number,
-      //   required: true,
-      // },
-      // manana_fin: {
-      //   type: Number,
-      //   required: true,
-      // },
-      // tarde_comienzo: {
-      //   type: Number,
-      //   required: true,
-      // },
-      // tarde_fin: {
-      //   type: Number,
-      //   required: true,
-      // },
-      // doctor: {
-      //   type: mongoose.Schema.Types.ObjectId,
-      //   ref: 'Usuario',
-      // },
+
+      activo: {
+        type: Boolean,
+      },
+
+      manana_comienzo: {
+        type: Object,
+      },
+      manana_fin: {
+        type: Object,
+      },
+      tarde_comienzo: {
+        type: Object,
+      },
+      tarde_fin: {
+        type: Object,
+      },
     },
   ],
 });
+// },
+// doctor: {
+//   type: mongoose.Schema.Types.ObjectId,
+//   ref: 'Usuario',
+// }
 
 module.exports = mongoose.model('Agenda', agendaSchema);
 
